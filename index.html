@@ -6,19 +6,59 @@
   </head>
   <body>
     <script>
-
+      //two global variables:
+//       users is an array of strings -- all the usernames that you're following
+//       streams is an object with two properties, users and home.
+// streams.home is an array of all tweets from all the users you're following.
+// streams.users is an object with properties for each user. streams.users.shawndrost has all of shawndrost's tweets.
       $(document).ready(function(){
         var $body = $('body');
         $body.html('');
+        $('body').prepend('<span id=top></span>')
+        $('body').prepend('<h1>TwIdDleR</h1>');
+        $('h1').css({
+        	'background-color': 'teal',
+        	'font-family': 'optima',
+        	'color': 'white',
+        });
 
+
+        $
         var index = streams.home.length - 1;
+        var initLength = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          var $tweet = $('<div class=' + tweet.user + '></div>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' -' + tweet.created_at);
+          //$tweet.html('<a href=streams.users.' + tweet.user + '>@' + tweet.user + '</a>: ' + tweet.message + ' -' + tweet.created_at);
+          $tweet.appendTo('#top');
           index -= 1;
         }
+        $('h1').append('<br><button position=fixed>Check for new tweets</button>');
+        // $("button").click(function(){
+        //     location.reload(true);
+        // });
+        $('button').click(function(){
+        	//check for new tweets
+        	for (index = initLength + 1; index < streams.home.length; index++) {
+        	  var tweet = streams.home[index];
+              var $tweet = $('<div class=' + tweet.user + '></div>');
+              $tweet.text('@' + tweet.user + ': ' + tweet.message + ' -' + tweet.created_at);
+              $tweet.prependTo('#top');
+        	}
+        	$('div:odd').css('background-color', 'lightseagreen');
+            $('div:even').css('background-color', 'mediumaquamarine');
+        });
+        $('span').on('click', 'div', function(){
+        	var tag = this.className.trim();
+        	$('div').not('.'+tag).toggle();
+        });
+        $('div:odd').css('background-color', 'lightseagreen');
+        $('div:even').css('background-color', 'mediumaquamarine');
+        $('button').css('background-color','teal');
+
+
+
 
       });
 
